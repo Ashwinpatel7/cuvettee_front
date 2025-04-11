@@ -1,106 +1,104 @@
-import React, { useState } from 'react';
+// frontend/src/components/JobForm.js
+import React, { useState, useMemo } from 'react';
 import {
-  TextField,
-  Button,
-  MenuItem,
-  Typography,
   Box,
+  TextField,
   FormControl,
   InputLabel,
-  Select
+  Select,
+  MenuItem,
+  Button,
+  Typography
 } from '@mui/material';
 
-// Define status colors
-const statusColors = {
-  pending: 'orange',
-  accepted: 'green',
-  rejected: 'red',
-  interview: 'blue'
-};
-
-const JobForm = () => {
+const JobForm = ({ onAddApplication }) => {
   const [formData, setFormData] = useState({
     company: '',
-    position: '',
-    status: 'pending'
+    role: '',
+    status: 'Applied',
+    dateOfApplication: '',
+    link: ''
   });
+
+  const statusOptions = useMemo(
+    () => ['Applied', 'Interview', 'Offer', 'Rejected'],
+    []
+  );
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form Data Submitted:', formData);
-    // Add your form submission logic here
+    // Validate required fields
+    if (!formData.company || !formData.role || !formData.dateOfApplication) return;
+    onAddApplication(formData);
+    setFormData({
+      company: '',
+      role: '',
+      status: 'Applied',
+      dateOfApplication: '',
+      link: ''
+    });
   };
 
   return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit}
-      sx={{
-        maxWidth: 400,
-        mx: 'auto',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 2,
-        p: 3,
-        border: '1px solid #ccc',
-        borderRadius: 2
-      }}
-    >
-      <Typography variant="h5" textAlign="center">
-        Add Job
+    <Box component="form" onSubmit={handleSubmit} sx={{ p: 2, border: '1px solid #ccc', borderRadius: 2 }}>
+      <Typography variant="h6" align="center" gutterBottom>
+        Add Job Application
       </Typography>
-
       <TextField
         label="Company"
         name="company"
         value={formData.company}
         onChange={handleChange}
+        fullWidth
         required
+        margin="normal"
       />
-
       <TextField
-        label="Position"
-        name="position"
-        value={formData.position}
+        label="Role"
+        name="role"
+        value={formData.role}
         onChange={handleChange}
+        fullWidth
         required
+        margin="normal"
       />
-
-      <FormControl fullWidth>
+      <FormControl fullWidth margin="normal">
         <InputLabel>Status</InputLabel>
-        <Select
-          name="status"
-          value={formData.status}
-          onChange={handleChange}
-          label="Status"
-        >
-          {Object.keys(statusColors).map((status) => (
+        <Select name="status" value={formData.status} onChange={handleChange} label="Status">
+          {statusOptions.map((status) => (
             <MenuItem key={status} value={status}>
-              {status.charAt(0).toUpperCase() + status.slice(1)}
+              {status}
             </MenuItem>
           ))}
         </Select>
       </FormControl>
-
-      <Typography
-        variant="body2"
-        sx={{
-          color: statusColors[formData.status] || 'black',
-          fontWeight: 'bold'
+      <TextField
+        label="Date of Application"
+        name="dateOfApplication"
+        type="date"
+        value={formData.dateOfApplication}
+        onChange={handleChange}
+        fullWidth
+        required
+        margin="normal"
+        InputLabelProps={{
+          shrink: true
         }}
-      >
-        Current Status: {formData.status}
-      </Typography>
-
-      <Button type="submit" variant="contained" color="primary">
+      />
+      <TextField
+        label="Application Link"
+        name="link"
+        value={formData.link}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+      />
+      <Button variant="contained" color="primary" type="submit" fullWidth sx={{ mt: 2 }}>
         Submit
       </Button>
     </Box>
