@@ -1,4 +1,4 @@
-// frontend/src/App.js
+// src/App.js
 import React, { useEffect, useState, useCallback } from 'react';
 import { Container, Typography, Box } from '@mui/material';
 import JobForm from './components/JobForm';
@@ -15,7 +15,8 @@ function App() {
     try {
       let query = '';
       if (filters.status) query += `?status=${filters.status}`;
-      if (filters.date) query += query ? `&date=${filters.date}` : `?date=${filters.date}`;
+      if (filters.date)
+        query += query ? `&date=${filters.date}` : `?date=${filters.date}`;
 
       const res = await fetch(`${API_URL}${query}`);
       const data = await res.json();
@@ -34,7 +35,7 @@ function App() {
       const res = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newApp)
+        body: JSON.stringify(newApp),
       });
       const savedApp = await res.json();
       setApplications((prev) => [savedApp, ...prev]);
@@ -57,7 +58,7 @@ function App() {
       const res = await fetch(`${API_URL}/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedData)
+        body: JSON.stringify(updatedData),
       });
       const updatedApp = await res.json();
       setApplications((prev) =>
@@ -69,7 +70,7 @@ function App() {
   };
 
   return (
-    <Container sx={{ mt: 4 }}>
+    <Container sx={{ mt: 4, mb: 4 }}>
       <Typography variant="h4" align="center" gutterBottom>
         Student Job Tracker
       </Typography>

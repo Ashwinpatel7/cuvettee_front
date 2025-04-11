@@ -1,54 +1,71 @@
-// frontend/src/components/Filter.js
+// src/components/Filter.js
 import React, { useState } from 'react';
-import { Box, TextField, FormControl, InputLabel, Select, MenuItem, Button } from '@mui/material';
+import {
+  Box,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Button,
+  Stack,
+} from '@mui/material';
 
 const Filter = ({ onFilterChange }) => {
   const [status, setStatus] = useState('');
   const [date, setDate] = useState('');
 
-  const handleFilter = () => {
+  const applyFilter = () => {
     onFilterChange({ status, date });
   };
 
-  const handleReset = () => {
+  const resetFilter = () => {
     setStatus('');
     setDate('');
     onFilterChange({ status: '', date: '' });
   };
 
   return (
-    <Box sx={{ p: 2, border: '1px solid #ccc', borderRadius: 2 }}>
-      <FormControl sx={{ mr: 2, minWidth: 120 }}>
-        <InputLabel>Status</InputLabel>
-        <Select
-          value={status}
-          label="Status"
-          onChange={(e) => setStatus(e.target.value)}
-        >
-          <MenuItem value="">
-            <em>All</em>
-          </MenuItem>
-          {['Applied', 'Interview', 'Offer', 'Rejected'].map((s) => (
-            <MenuItem key={s} value={s}>
-              {s}
+    <Box
+      sx={{
+        p: 3,
+        borderRadius: 2,
+        backgroundColor: 'white',
+        boxShadow: 2,
+      }}
+    >
+      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="center">
+        <FormControl sx={{ minWidth: 150 }}>
+          <InputLabel>Status</InputLabel>
+          <Select
+            value={status}
+            label="Status"
+            onChange={(e) => setStatus(e.target.value)}
+          >
+            <MenuItem value="">
+              <em>All</em>
             </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <TextField
-        label="Date"
-        type="date"
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
-        sx={{ mr: 2 }}
-        InputLabelProps={{ shrink: true }}
-      />
-      <Button variant="contained" onClick={handleFilter} sx={{ mr: 1 }}>
-        Apply
-      </Button>
-      <Button variant="outlined" onClick={handleReset}>
-        Reset
-      </Button>
+            {['Applied', 'Interview', 'Offer', 'Rejected'].map((s) => (
+              <MenuItem key={s} value={s}>
+                {s}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <TextField
+          label="Date"
+          type="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+          InputLabelProps={{ shrink: true }}
+        />
+        <Button variant="contained" onClick={applyFilter}>
+          Apply
+        </Button>
+        <Button variant="outlined" onClick={resetFilter}>
+          Reset
+        </Button>
+      </Stack>
     </Box>
   );
 };

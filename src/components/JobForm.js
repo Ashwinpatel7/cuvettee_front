@@ -1,4 +1,4 @@
-// frontend/src/components/JobForm.js
+// src/components/JobForm.js
 import React, { useState, useMemo } from 'react';
 import {
   Box,
@@ -8,7 +8,8 @@ import {
   Select,
   MenuItem,
   Button,
-  Typography
+  Typography,
+  Stack,
 } from '@mui/material';
 
 const JobForm = ({ onAddApplication }) => {
@@ -17,9 +18,10 @@ const JobForm = ({ onAddApplication }) => {
     role: '',
     status: 'Applied',
     dateOfApplication: '',
-    link: ''
+    link: '',
   });
 
+  // Available status options using useMemo for optimization
   const statusOptions = useMemo(
     () => ['Applied', 'Interview', 'Offer', 'Rejected'],
     []
@@ -35,72 +37,83 @@ const JobForm = ({ onAddApplication }) => {
     // Validate required fields
     if (!formData.company || !formData.role || !formData.dateOfApplication) return;
     onAddApplication(formData);
+    // Reset form data
     setFormData({
       company: '',
       role: '',
       status: 'Applied',
       dateOfApplication: '',
-      link: ''
+      link: '',
     });
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ p: 2, border: '1px solid #ccc', borderRadius: 2 }}>
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{
+        p: 3,
+        borderRadius: 2,
+        backgroundColor: 'white',
+        boxShadow: 3,
+      }}
+    >
       <Typography variant="h6" align="center" gutterBottom>
         Add Job Application
       </Typography>
-      <TextField
-        label="Company"
-        name="company"
-        value={formData.company}
-        onChange={handleChange}
-        fullWidth
-        required
-        margin="normal"
-      />
-      <TextField
-        label="Role"
-        name="role"
-        value={formData.role}
-        onChange={handleChange}
-        fullWidth
-        required
-        margin="normal"
-      />
-      <FormControl fullWidth margin="normal">
-        <InputLabel>Status</InputLabel>
-        <Select name="status" value={formData.status} onChange={handleChange} label="Status">
-          {statusOptions.map((status) => (
-            <MenuItem key={status} value={status}>
-              {status}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <TextField
-        label="Date of Application"
-        name="dateOfApplication"
-        type="date"
-        value={formData.dateOfApplication}
-        onChange={handleChange}
-        fullWidth
-        required
-        margin="normal"
-        InputLabelProps={{
-          shrink: true
-        }}
-      />
-      <TextField
-        label="Application Link"
-        name="link"
-        value={formData.link}
-        onChange={handleChange}
-        fullWidth
-        margin="normal"
-      />
-      <Button variant="contained" color="primary" type="submit" fullWidth sx={{ mt: 2 }}>
-        Submit
-      </Button>
+      <Stack spacing={2}>
+        <TextField
+          label="Company"
+          name="company"
+          value={formData.company}
+          onChange={handleChange}
+          required
+          fullWidth
+        />
+        <TextField
+          label="Role"
+          name="role"
+          value={formData.role}
+          onChange={handleChange}
+          required
+          fullWidth
+        />
+        <FormControl fullWidth required>
+          <InputLabel>Status</InputLabel>
+          <Select
+            name="status"
+            value={formData.status}
+            onChange={handleChange}
+            label="Status"
+          >
+            {statusOptions.map((status) => (
+              <MenuItem key={status} value={status}>
+                {status}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <TextField
+          label="Date of Application"
+          name="dateOfApplication"
+          type="date"
+          value={formData.dateOfApplication}
+          onChange={handleChange}
+          InputLabelProps={{ shrink: true }}
+          required
+          fullWidth
+        />
+        <TextField
+          label="Application Link"
+          name="link"
+          value={formData.link}
+          onChange={handleChange}
+          fullWidth
+        />
+        <Button variant="contained" color="primary" type="submit" fullWidth>
+          Submit Application
+        </Button>
+      </Stack>
     </Box>
   );
 };

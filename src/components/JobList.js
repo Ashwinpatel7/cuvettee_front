@@ -1,4 +1,4 @@
-// frontend/src/components/JobList.js
+// src/components/JobList.js
 import React from 'react';
 import {
   Box,
@@ -8,46 +8,62 @@ import {
   Typography,
   Button,
   Grid,
-  TextField
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
 
 const JobList = ({ applications, onDelete, onUpdate }) => {
-  const handleStatusChange = (id, e) => {
-    onUpdate(id, { status: e.target.value });
+  const statusOptions = ['Applied', 'Interview', 'Offer', 'Rejected'];
+
+  const handleStatusChange = (id, event) => {
+    onUpdate(id, { status: event.target.value });
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={3}>
       {applications.map((app) => (
         <Grid item key={app._id} xs={12} sm={6} md={4}>
           <Card variant="outlined">
             <CardContent>
-              <Typography variant="h6">{app.company}</Typography>
-              <Typography variant="subtitle1">{app.role}</Typography>
-              <Typography variant="body2">Applied on: {new Date(app.dateOfApplication).toLocaleDateString()}</Typography>
+              <Typography variant="h6" gutterBottom>
+                {app.company}
+              </Typography>
+              <Typography variant="subtitle1" gutterBottom>
+                {app.role}
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+                Applied on:{' '}
+                {new Date(app.dateOfApplication).toLocaleDateString()}
+              </Typography>
               {app.link && (
                 <Typography variant="body2">
-                  <a href={app.link} target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={app.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: '#1976d2' }}
+                  >
                     Application Link
                   </a>
                 </Typography>
               )}
-              <Box sx={{ mt: 1 }}>
-                <TextField
-                  select
-                  label="Status"
-                  value={app.status}
-                  onChange={(e) => handleStatusChange(app._id, e)}
-                  variant="outlined"
-                  fullWidth
-                  size="small"
-                >
-                  {['Applied', 'Interview', 'Offer', 'Rejected'].map((status) => (
-                    <option key={status} value={status}>
-                      {status}
-                    </option>
-                  ))}
-                </TextField>
+              <Box sx={{ mt: 2 }}>
+                <FormControl fullWidth size="small">
+                  <InputLabel>Status</InputLabel>
+                  <Select
+                    value={app.status}
+                    label="Status"
+                    onChange={(e) => handleStatusChange(app._id, e)}
+                  >
+                    {statusOptions.map((status) => (
+                      <MenuItem key={status} value={status}>
+                        {status}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </Box>
             </CardContent>
             <CardActions>
