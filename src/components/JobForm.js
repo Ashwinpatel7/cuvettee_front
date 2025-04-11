@@ -21,11 +21,8 @@ const JobForm = ({ onAddApplication }) => {
     link: '',
   });
 
-  // Available status options using useMemo for optimization
-  const statusOptions = useMemo(
-    () => ['Applied', 'Interview', 'Offer', 'Rejected'],
-    []
-  );
+  // Define status options
+  const statusOptions = useMemo(() => ['Applied', 'Interview', 'Offer', 'Rejected'], []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,10 +31,9 @@ const JobForm = ({ onAddApplication }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Validate required fields
+    // Basic validations
     if (!formData.company || !formData.role || !formData.dateOfApplication) return;
     onAddApplication(formData);
-    // Reset form data
     setFormData({
       company: '',
       role: '',
@@ -53,9 +49,9 @@ const JobForm = ({ onAddApplication }) => {
       onSubmit={handleSubmit}
       sx={{
         p: 3,
-        borderRadius: 2,
         backgroundColor: 'white',
         boxShadow: 3,
+        borderRadius: 2,
       }}
     >
       <Typography variant="h6" align="center" gutterBottom>
@@ -80,12 +76,7 @@ const JobForm = ({ onAddApplication }) => {
         />
         <FormControl fullWidth required>
           <InputLabel>Status</InputLabel>
-          <Select
-            name="status"
-            value={formData.status}
-            onChange={handleChange}
-            label="Status"
-          >
+          <Select name="status" value={formData.status} onChange={handleChange} label="Status">
             {statusOptions.map((status) => (
               <MenuItem key={status} value={status}>
                 {status}

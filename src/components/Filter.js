@@ -15,10 +15,7 @@ const Filter = ({ onFilterChange }) => {
   const [status, setStatus] = useState('');
   const [date, setDate] = useState('');
 
-  const applyFilter = () => {
-    onFilterChange({ status, date });
-  };
-
+  const applyFilter = () => onFilterChange({ status, date });
   const resetFilter = () => {
     setStatus('');
     setDate('');
@@ -29,19 +26,15 @@ const Filter = ({ onFilterChange }) => {
     <Box
       sx={{
         p: 3,
-        borderRadius: 2,
         backgroundColor: 'white',
         boxShadow: 2,
+        borderRadius: 2,
       }}
     >
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="center">
         <FormControl sx={{ minWidth: 150 }}>
           <InputLabel>Status</InputLabel>
-          <Select
-            value={status}
-            label="Status"
-            onChange={(e) => setStatus(e.target.value)}
-          >
+          <Select value={status} label="Status" onChange={(e) => setStatus(e.target.value)}>
             <MenuItem value="">
               <em>All</em>
             </MenuItem>

@@ -8,7 +8,7 @@ const theme = createTheme({
       main: '#1976d2', // modern blue
     },
     secondary: {
-      main: '#dc004e', // modern red/pink
+      main: '#dc004e', // vivid red/pink
     },
     background: {
       default: '#f4f6f8', // light gray background
@@ -16,12 +16,8 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    h4: {
-      fontWeight: 700,
-    },
-    h6: {
-      fontWeight: 600,
-    },
+    h4: { fontWeight: 700 },
+    h6: { fontWeight: 600 },
   },
   components: {
     MuiCard: {
@@ -34,10 +30,7 @@ const theme = createTheme({
     },
     MuiButton: {
       styleOverrides: {
-        root: {
-          textTransform: 'none',
-          borderRadius: 8,
-        },
+        root: { textTransform: 'none', borderRadius: 8 },
       },
     },
   },
